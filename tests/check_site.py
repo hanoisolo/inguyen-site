@@ -71,7 +71,7 @@ def check_seg1():
     for t,a in tags:
         if t=='a' and (a.get('href') or '').startswith('https://github.com'):
             need(a.get('target')=='_blank' and 'noopener' in (a.get('rel') or ''), f'github link needs target/rel {a.get("href")}')
-    cards = [a for t,a in tags if t in ('article','li','div') and re.search(r'(^|\s)card(\s|$)', a.get('class') or '')]
+    cards = [a for t,a in tags if t in ('article','li','div') and re.search(r'(^|\s)card(\s|$)', a.get('class') or '') and 'card--repo' not in (a.get('class') or '')]
     need(len(cards)==9, f'expected 9 .card elements, got {len(cards)}')
     for g in ['Learning games','Just for fun','Adults only (18+)','Coming soon']: need(g in h, f'group heading {g}')
     need('card--featured' in h and 'card--soon' in h and 'badge--warn' in h, 'featured/soon/warn modifiers')
@@ -80,8 +80,39 @@ def check_seg1():
     need(r.returncode==0, 'main.js syntax: '+r.stderr.strip()[:200])
     need('matchMedia' in js and 'prefers-reduced-motion' in js, 'main.js must respect reduced motion')
 
+
+def section_html(h, sid):
+    m = re.search(r'<section[^>]*id="%s"(.*?)</section>\s*(?=<section|</main>)' % sid, h, re.S)
+    return m.group(0) if m else ''
+
+def check_seg2():
+    check_seg1()
+    h = read('index.html'); p = P(); p.feed(h); tags = p.tags
+    pr = section_html(h, 'projects'); ab = section_html(h, 'about')
+    need(pr, '#projects section missing'); need(ab, '#about section missing')
+    need('Coming in the next update' not in h, 'placeholder text still present')
+    for r in ['geo-conquest','my-games','FantasyQuest']:
+        need(f'https://github.com/hanoisolo/{r}' in pr, f'projects: repo link {r}')
+    need(pr.count('card--repo') == 3, f'projects: expected 3 .card--repo, got {pr.count("card--repo")}')
+    need('k3-portfolio' not in h, 'k3-portfolio must not appear')
+    need('https://github.com/hanoisolo?tab=repositories' in pr, 'projects: all repos link')
+    for lang in ['JavaScript','HTML']: need(lang in pr, f'projects: language {lang}')
+    need("I'm Don, a Toronto-based builder who makes browser games — mostly learning games my kids actually want to play." in ab.replace('&rsquo;',"'").replace('’',"'"), 'about: bio text')
+    for u in ['https://github.com/hanoisolo','https://x.com/hanoi_solo','https://www.linkedin.com/in/don-nguyen/']:
+        need(u in ab, f'about: link {u}')
+    for t,a in tags:
+        href = a.get('href') or ''
+        if t=='a' and any(href.startswith(x) for x in ('https://x.com','https://www.linkedin.com','https://github.com')):
+            need(a.get('target')=='_blank' and 'noopener' in (a.get('rel') or ''), f'external link target/rel {href}')
+    need(ab.count('<svg') >= 3, 'about: 3 inline svg icons')
+    need('mailto:' not in h and '<form' not in h, 'no email/form')
+    f = re.search(r'<footer.*?</footer>', h, re.S); f = f.group(0) if f else ''
+    need('data-year' in f and 'Don Nguyen' in f and 'inguyen.ca' in f, 'footer: year, name, inguyen.ca')
+    need('href="#top"' in f, 'footer: back to top')
+    need(f.count('<a') >= 4, 'footer: social links + back to top')
+
 mode = sys.argv[1] if len(sys.argv)>1 else 'seg1'
-{'ds':check_ds,'seg1':check_seg1}[mode]()
+{'ds':check_ds,'seg1':check_seg1,'seg2':check_seg2}[mode]()
 if fails:
     print('FAIL ('+str(len(fails))+'):'); [print(' - '+f) for f in fails[:25]]; sys.exit(1)
 print('PASS', mode)
