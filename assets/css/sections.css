@@ -210,10 +210,30 @@
   }
 }
 
+@media (max-width: 899px) {
+  .hero {
+    padding: var(--sp-8) 0;
+  }
+
+  .hero__portrait {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero__bolts {
+    display: none;
+  }
+}
+
 /* ===== Games ===== */
 
 section[id] {
   scroll-margin-top: 5rem;
+}
+
+#games {
+  padding-top: var(--sp-12);
 }
 
 .games-group {
@@ -236,6 +256,28 @@ section[id] {
   margin: var(--sp-2) 0 var(--sp-6);
   max-width: 60ch;
   color: var(--text-muted);
+}
+
+.group-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-8);
+}
+
+.group-row .grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .group-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .group-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .card--soon {

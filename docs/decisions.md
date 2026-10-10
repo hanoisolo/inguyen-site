@@ -10,3 +10,5 @@
 - 2026-10-10 — **Google Sites posts retired;** nothing carried over (Don).
 - 2026-10-10 — **Thumbnails** captured headlessly from the live games at 1280×800, cropped to the content and saved as 640×400 webp. FantasyQuest has no live site, so its thumbnail is from a local run of the repo.
 - 2026-10-10 — **Contact = links only** (GitHub, X, LinkedIn). No email, no form (Don).
+- 2026-10-10 — **Games layout after visual review:** Geo Conquest is a full-row horizontal featured card; the three single-card groups (Just for fun, Adults 18+, Coming soon) sit side by side in one `.group-row` on desktop instead of three near-empty rows.
+- 2026-10-10 — **Canonical link** added in segment 1 (the gate's external-link check was narrowed to scripts/stylesheets only).

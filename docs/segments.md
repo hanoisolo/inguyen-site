@@ -3,7 +3,7 @@
 | # | Segment | Spec | Status |
 |---|---|---|---|
 | 0 | Blueprint docs, assets (portrait sizes, OG image, favicons, game thumbnails), CNAME, test gate | — | done (Forge) |
-| 1 | Design system (tokens.css, components.css) + header + hero + games showcase | §1, §2, §3, §8, §9 | in progress |
+| 1 | Design system (tokens.css, components.css) + header + hero + games showcase | §1, §2, §3, §8, §9 | done (mockup; awaiting Don review) |
 | 2 | Projects + About/links + footer | §4, §5, §6 | todo |
 | 3 | SEO/OG/JSON-LD, robots.txt, sitemap.xml, 404.html | §7 | todo |
 | 4 | Hardening: link check, contrast/a11y audit, mobile pass, Lighthouse-style perf check, copy review with Don | §8, §9 | todo |
