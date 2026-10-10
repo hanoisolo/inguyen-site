@@ -48,7 +48,8 @@ def check_seg1():
     css = [a.get('href') for t,a in tags if t=='link' and a.get('rel')=='stylesheet']
     need(css == ['assets/css/tokens.css','assets/css/components.css','assets/css/sections.css'], f'css order {css}')
     need(any(t=='script' and a.get('src')=='assets/js/main.js' and 'defer' in a for t,a in tags), 'main.js defer')
-    need(not re.search(r'<(script|link)[^>]+(src|href)="https?://', h), 'no external scripts/styles')
+    need(not any((t=='script' and (a.get('src') or '').startswith('http')) or (t=='link' and a.get('rel') in ('stylesheet','preload','modulepreload') and (a.get('href') or '').startswith('http')) for t,a in tags), 'no external scripts/styles')
+    need(any(t=='link' and a.get('rel')=='canonical' and a.get('href')=='https://www.inguyen.ca/' for t,a in tags), 'canonical link')
     ids = {a.get('id') for t,a in tags}
     for i in ['top','main','games']: need(i in ids, f'id #{i} missing')
     need(any(t=='a' and 'skip-link' in (a.get('class') or '') and a.get('href')=='#main' for t,a in tags), 'skip link')
