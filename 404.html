@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — Don Nguyen</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#05080f">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/sections.css">
+  <style>
+    .error-main {
+      min-height: calc(100vh - 16rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+    .error-main .eyebrow {
+      font-size: clamp(4rem, 14vw, 7rem);
+      line-height: 1;
+    }
+    .error-main h1,
+    .error-main p {
+      margin: 0;
+    }
+    .error-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__wordmark" href="/">Don Nguyen</a>
+      <nav aria-label="Primary">
+        <ul class="site-header__nav">
+          <li><a href="/#games">Games</a></li>
+          <li><a href="/#projects">Projects</a></li>
+          <li><a href="/#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="error-main">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p>That page wandered off the map.</p>
+    <div class="error-actions">
+      <a class="btn btn--primary" href="/">Back home</a>
+      <a class="btn btn--ghost" href="/#games">Play the games</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>© 2026 Don Nguyen · inguyen.ca</p>
+    </div>
+  </footer>
+</body>
+</html>
