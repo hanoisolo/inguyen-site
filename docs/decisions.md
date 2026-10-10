@@ -12,3 +12,5 @@
 - 2026-10-10 — **Contact = links only** (GitHub, X, LinkedIn). No email, no form (Don).
 - 2026-10-10 — **Games layout after visual review:** Geo Conquest is a full-row horizontal featured card; the three single-card groups (Just for fun, Adults 18+, Coming soon) sit side by side in one `.group-row` on desktop instead of three near-empty rows.
 - 2026-10-10 — **Canonical link** added in segment 1 (the gate's external-link check was narrowed to scripts/stylesheets only).
+- 2026-10-10 — **Seg 2 verified by Forge after a watchdog BLOCKER.** Both models were killed for "no progress" right as they ran the gate; root cause: the wrapper's VERIFY_RE does not recognise `python3 tests/check_site.py`, and batched stream events credit file edits to earlier actions. Gates are now run via `python3 -m unittest tests.test_site.SegN` (which VERIFY_RE recognises).
+- 2026-10-10 — **Projects** shows geo-conquest, my-games, FantasyQuest; inguyen-site is added after the repo exists; k3-portfolio stays out (Don).
