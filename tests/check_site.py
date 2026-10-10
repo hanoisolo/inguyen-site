@@ -111,8 +111,56 @@ def check_seg2():
     need('href="#top"' in f, 'footer: back to top')
     need(f.count('<a') >= 4, 'footer: social links + back to top')
 
+def check_seg3():
+    check_seg2()
+    import json
+    h = read('index.html'); p = P(); p.feed(h); tags = p.tags
+    metas = {}
+    for t,a in tags:
+        if t=='meta':
+            k = a.get('property') or a.get('name')
+            if k: metas[k] = a.get('content')
+    want = {'og:title':None,'og:description':None,'og:url':'https://www.inguyen.ca/','og:type':'website','og:image':'https://www.inguyen.ca/assets/img/og.jpg','og:image:width':'1200','og:image:height':'630','og:image:alt':None,'og:site_name':None,'og:locale':'en_CA','twitter:card':'summary_large_image','twitter:site':'@hanoi_solo','twitter:title':None,'twitter:description':None,'twitter:image':'https://www.inguyen.ca/assets/img/og.jpg'}
+    for k,v in want.items():
+        need(k in metas and metas[k], f'meta {k} missing')
+        if v and k in metas: need(metas[k]==v, f'meta {k} should be {v}, got {metas[k]}')
+    d = metas.get('description') or ''
+    need(50 <= len(d) <= 160, f'meta description length {len(d)} not 50-160')
+    m = re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S)
+    need(len(m)==1, 'exactly one JSON-LD block')
+    if m:
+        try:
+            j = json.loads(m[0])
+            need(j.get('@context')=='https://schema.org' and j.get('@type')=='Person', 'JSON-LD Person/@context')
+            need(j.get('name')=='Don Nguyen' and j.get('url')=='https://www.inguyen.ca/', 'JSON-LD name/url')
+            need(set(j.get('sameAs') or [])=={'https://github.com/hanoisolo','https://x.com/hanoi_solo','https://www.linkedin.com/in/don-nguyen/'}, 'JSON-LD sameAs')
+            need((j.get('image') or '').startswith('https://www.inguyen.ca/assets/img/'), 'JSON-LD image')
+        except Exception as e: need(False, f'JSON-LD invalid: {e}')
+    r = read('robots.txt')
+    need('User-agent: *' in r and 'Allow: /' in r and 'Sitemap: https://www.inguyen.ca/sitemap.xml' in r, 'robots.txt content')
+    sm = read('sitemap.xml')
+    need(sm.startswith('<?xml') and 'http://www.sitemaps.org/schemas/sitemap/0.9' in sm and '<loc>https://www.inguyen.ca/</loc>' in sm, 'sitemap.xml')
+    need('404.html' not in sm, 'sitemap must not list 404')
+    f = read('404.html'); need(f, '404.html missing')
+    if f:
+        q = P(); q.feed(f); ft = q.tags
+        need(re.search(r'<html[^>]*lang="en-CA"', f), '404 lang')
+        css = [a.get('href') for t,a in ft if t=='link' and a.get('rel')=='stylesheet']
+        need(css == ['/assets/css/tokens.css','/assets/css/components.css','/assets/css/sections.css'], f'404 css must be root-absolute in order, got {css}')
+        need(any(t=='meta' and a.get('name')=='robots' and 'noindex' in (a.get('content') or '') for t,a in ft), '404 noindex')
+        need(len([1 for t,_ in ft if t=='h1'])==1, '404 one h1')
+        need(any(t=='a' and a.get('href')=='/' for t,a in ft), '404 link home "/"')
+        need(any(t=='a' and a.get('href')=='/#games' for t,a in ft), '404 link /#games')
+        need('Page not found' in f, '404 text')
+        for t,a in ft:
+            for k in ('href','src','srcset'):
+                v = a.get(k) or ''
+                if v and not v.startswith(('/','http','#','mailto')) and t in ('link','script','img','source','a'):
+                    need(False, f'404 relative URL {v} (use root-absolute)')
+        need(not re.search(r'https?://(?!www\.inguyen\.ca|github\.com|x\.com|www\.linkedin\.com)', f), '404 external URL')
+
 mode = sys.argv[1] if len(sys.argv)>1 else 'seg1'
-{'ds':check_ds,'seg1':check_seg1,'seg2':check_seg2}[mode]()
+{'ds':check_ds,'seg1':check_seg1,'seg2':check_seg2,'seg3':check_seg3}[mode]()
 if fails:
     print('FAIL ('+str(len(fails))+'):'); [print(' - '+f) for f in fails[:25]]; sys.exit(1)
 print('PASS', mode)
