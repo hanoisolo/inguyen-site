@@ -7,14 +7,14 @@
   --border-strong: rgba(125, 211, 252, 0.35);
   --text: #e6f1ff;
   --text-muted: #93a8c2;
-  --text-dim: #6b7f99;
+  --text-dim: #7d90a8;
   --accent: #38bdf8;
   --accent-2: #67e8f9;
   --accent-ink: #04111d;
   --glow: 0 0 24px rgba(56, 189, 248, 0.45);
   --glow-strong: 0 0 48px rgba(103, 232, 249, 0.55);
   --warn: #f59e0b;
-  --muted-badge: #475569;
+  --muted-badge: #94a3b8;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --fs-xs: .75rem;

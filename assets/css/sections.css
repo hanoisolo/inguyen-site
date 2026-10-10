@@ -47,6 +47,12 @@
 }
 
 .site-header__nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 24px;
+  padding-inline: var(--sp-2);
   color: var(--text-muted);
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -61,7 +67,7 @@
 
 @media (max-width: 640px) {
   .site-header__nav {
-    gap: var(--sp-4);
+    gap: var(--sp-2);
   }
 
   .site-header__nav a {
@@ -304,6 +310,12 @@ section[id] {
 }
 
 .projects-more a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  min-width: 24px;
+  padding-inline: var(--sp-2);
   font-weight: 600;
 }
 
@@ -360,6 +372,12 @@ section[id] {
 }
 
 .site-footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 24px;
+  padding-inline: var(--sp-2);
   color: var(--text-dim);
   font-size: var(--fs-sm);
 }

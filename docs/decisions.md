@@ -14,3 +14,6 @@
 - 2026-10-10 — **Canonical link** added in segment 1 (the gate's external-link check was narrowed to scripts/stylesheets only).
 - 2026-10-10 — **Seg 2 verified by Forge after a watchdog BLOCKER.** Both models were killed for "no progress" right as they ran the gate; root cause: the wrapper's VERIFY_RE does not recognise `python3 tests/check_site.py`, and batched stream events credit file edits to earlier actions. Gates are now run via `python3 -m unittest tests.test_site.SegN` (which VERIFY_RE recognises).
 - 2026-10-10 — **Projects** shows geo-conquest, my-games, FantasyQuest; inguyen-site is added after the repo exists; k3-portfolio stays out (Don).
+- 2026-10-10 — **Seg 4 audit results:** axe-core (WCAG 2 A/AA + best practice) 0 violations on / and 404; `--text-dim` → #7d90a8 and `--muted-badge` → #94a3b8 for ≥4.5:1; all links ≥24×24 px; no horizontal overflow at 390/768/1280/1440; no animations under reduced motion; first load at 390 px ≈ 127 KB / 9 requests (thumbnails lazy). External links all 200 except LinkedIn, which returns 999 to non-browser clients (normal bot block; same URL as the games hub).
+- 2026-10-10 — **OG image** regenerated as a branded 1200×630 card (eyebrow, name, tagline, URL, portrait).
+- 2026-10-10 — **Copy:** geo-conquest repo blurb now mentions math and local multiplayer.

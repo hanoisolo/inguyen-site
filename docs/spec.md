@@ -11,7 +11,7 @@ Static site on GitHub Pages, custom domain www.inguyen.ca. Single page (`index.h
 - Acceptance: nav works with keyboard; on ≤ 640px the nav stays on one line (links shrink) — no hamburger needed for 3 links.
 
 ## 2. Hero (`#top`)
-- Two columns on desktop (text left, portrait right), stacked on mobile (portrait first, max 280px wide).
+- Two columns on desktop (text left, portrait right), stacked on mobile (portrait first, max 200px wide).
 - Portrait: `<picture>` with `assets/img/don-480.webp` / `don-800.webp` (srcset, `sizes`) and a `.jpg` fallback; explicit `width="800" height="1200"`; alt "Don Nguyen as a lightning-wielding hero". `fetchpriority="high"`, not lazy.
 - Portrait frame: rounded, thin cyan border, soft electric glow behind it; a subtle pulsing glow (disabled under reduced motion).
 - Eyebrow: "Developer · Game maker". H1: "Don Nguyen". Tagline (see §2a). Sub-line: "Learning games for kids, party games for grown-ups, and side projects in progress."
@@ -32,7 +32,7 @@ Card (primitive `.card`): thumbnail (`assets/games/<slug>.webp`, 640×400, `load
 
 | Group | Slug | Title | One-liner | Tags | Action |
 |---|---|---|---|---|---|
-| Learning games | geo-conquest | Geo Conquest | Conquer the world one question at a time: 1,100+ geography questions, grade 7 math with step-by-step hints, and local multiplayer for up to 4. | Geography, Math, Multiplayer | Play → https://conquest.inguyen.ca/ (card is `.card--featured`, spans 2 columns on desktop) |
+| Learning games | geo-conquest | Geo Conquest | Conquer the world one question at a time: 1,100+ geography questions, grade 7 math with step-by-step hints, and local multiplayer for up to 4. | Geography, Math, Multiplayer | Play → https://conquest.inguyen.ca/ (card is `.card--featured`, full-row horizontal card on desktop) |
 | Learning games | geo-quest-adeline | Geo Quest: Adeline | Ages 9–10: continents, oceans, Canada and map skills. Calm, no timers. | Geography, Ages 9–10 | Play → https://games.inguyen.ca/geo-quest-adeline.html |
 | Learning games | geo-quest-remy | Geo Quest: Remy | Ages 11–12: capitals, landforms, rivers and map skills. | Geography, Ages 11–12 | Play → https://games.inguyen.ca/geo-quest-remy.html |
 | Learning games | geo-quest-seline | Geo Quest: Seline | Ages 14–15: tectonics, biomes, climate and oceans. | Geography, Ages 14–15 | Play → https://games.inguyen.ca/geo-quest-seline.html |
@@ -51,7 +51,7 @@ Card (primitive `.card`): thumbnail (`assets/games/<slug>.webp`, 640×400, `load
 
 ## 4. GitHub projects (`#projects`)  — segment 2
 Heading "Projects", intro "The code behind it all, on GitHub." Cards (`.card--repo`, no thumbnail): repo name, description, language chip, "View repo" link (new tab).
-- geo-conquest — "Geo Conquest: a browser geography conquest quiz (vanilla JS, Natural Earth map)." JavaScript
+- geo-conquest — "Geo Conquest: a browser geography and math conquest quiz with local multiplayer (vanilla JS, Natural Earth map)." JavaScript
 - my-games — "The Games Hub at games.inguyen.ca: small learning and party games." HTML
 - FantasyQuest — "2D RPG homage to Dragon Warrior (in progress)." JavaScript
 - inguyen-site — "This site." HTML/CSS (add once the repo exists)
