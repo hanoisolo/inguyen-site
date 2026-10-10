@@ -159,8 +159,28 @@ def check_seg3():
                     need(False, f'404 relative URL {v} (use root-absolute)')
         need(not re.search(r'https?://(?!www\.inguyen\.ca|github\.com|x\.com|www\.linkedin\.com)', f), '404 external URL')
 
+def hexrgb(x):
+    x = x.strip().lstrip('#'); return tuple(int(x[i:i+2],16)/255 for i in (0,2,4))
+def lum(c):
+    f = lambda v: v/12.92 if v <= 0.03928 else ((v+0.055)/1.055)**2.4
+    r,g,b = map(f, c); return 0.2126*r + 0.7152*g + 0.0722*b
+def contrast(a, b):
+    la, lb = sorted((lum(hexrgb(a)), lum(hexrgb(b))), reverse=True); return (la+0.05)/(lb+0.05)
+
+def check_seg4():
+    check_seg3()
+    t = read('assets/css/tokens.css')
+    tok = dict(re.findall(r'(--[\w-]+)\s*:\s*(#[0-9a-fA-F]{6})', t))
+    pairs = [('--text','--bg'),('--text','--surface'),('--text-muted','--bg'),('--text-muted','--surface'),('--text-dim','--bg'),('--text-dim','--surface'),('--accent','--bg'),('--accent','--surface'),('--accent-2','--surface'),('--accent-ink','--accent'),('--warn','--surface'),('--muted-badge','--surface')]
+    for a,b in pairs:
+        if a in tok and b in tok:
+            c = contrast(tok[a], tok[b]); need(c >= 4.5, f'contrast {a} on {b} = {c:.2f} < 4.5')
+        else: need(False, f'token {a} or {b} not a 6-digit hex')
+    r = subprocess.run(['node', os.path.join(ROOT,'tests','browser_audit.js')], capture_output=True, text=True, timeout=300)
+    need(r.returncode == 0, 'browser audit: ' + (r.stdout.strip().splitlines() or ['no output'])[-1][:400])
+
 mode = sys.argv[1] if len(sys.argv)>1 else 'seg1'
-{'ds':check_ds,'seg1':check_seg1,'seg2':check_seg2,'seg3':check_seg3}[mode]()
+{'ds':check_ds,'seg1':check_seg1,'seg2':check_seg2,'seg3':check_seg3,'seg4':check_seg4}[mode]()
 if fails:
     print('FAIL ('+str(len(fails))+'):'); [print(' - '+f) for f in fails[:25]]; sys.exit(1)
 print('PASS', mode)
